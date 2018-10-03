@@ -1,0 +1,13 @@
+                                       Table "public.users"
+  Column  |         Type          | Collation | Nullable |                Default                 
+----------+-----------------------+-----------+----------+----------------------------------------
+ user_id  | integer               |           | not null | nextval('users_user_id_seq'::regclass)
+ email    | character varying(64) |           |          | 
+ password | character varying(64) |           |          | 
+ age      | integer               |           |          | 
+ zipcode  | character varying(15) |           |          | 
+Indexes:
+    "users_pkey" PRIMARY KEY, btree (user_id)
+Referenced by:
+    TABLE "ratings_data" CONSTRAINT "ratings_data_user_id_fkey" FOREIGN KEY (user_id) REFERENCES users(user_id)
+

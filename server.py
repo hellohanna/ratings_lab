@@ -3,11 +3,16 @@
 from jinja2 import StrictUndefined
 
 from flask import Flask
+from flask_sqlalchemy import SQLAlchemy
 from flask_debugtoolbar import DebugToolbarExtension
+from flask import Flask, render_template, redirect, request, flash, session
+
+from model import User, Ratings_data, Movie, connect_to_db, db
 
 from model import connect_to_db, db
 
 
+db = SQLAlchemy()
 app = Flask(__name__)
 
 # Required to use Flask sessions and the debug toolbar
@@ -22,7 +27,33 @@ app.jinja_env.undefined = StrictUndefined
 @app.route('/')
 def index():
     """Homepage."""
-    return "<html><body>Placeholder for the homepage.</body></html>"
+    return render_template("homepage.html")
+
+@app.route("/users")
+def user_list():
+    """Show list of users."""
+
+    userlist = User.query.all()
+    return render_template("user_list.html", users=userlist)
+
+@app.route('/sign_up')
+def show_form():
+    """Show registration form"""
+
+    return render_template("sign_up_form.html")
+
+@app.route('/submit', methods = ["POST"])
+def sign_up():
+    """Submit form information"""
+
+    user_email = request.form.get("email")
+    pass_word = request.form.get("password")
+
+    user = User(email = user_email, password =pass_word)
+    db.session.add(user)
+    db.session.commit()
+    userlist = User.query.all()
+    return render_template("user_list.html", users=userlist)
 
 
 if __name__ == "__main__":
