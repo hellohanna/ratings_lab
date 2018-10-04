@@ -14,12 +14,14 @@
         <li>
 
           Score: {{r.score}}
-        
-
-            
         </li>
 
+        {%endfor%}
+        {%if 'user_email' in session  %}
+            
+            
 
-      {%endfor%}
+
+      {%endif%}
  
 {% endblock %}

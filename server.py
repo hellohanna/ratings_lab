@@ -66,6 +66,7 @@ def login_form():
 
     user_email = request.args.get("email")
     pass_word = request.args.get("password")
+    session['user_email'] = user_email
 
     if User.query.filter(User.email == user_email, User.password == pass_word):
         flash('You were successfully logged in')
