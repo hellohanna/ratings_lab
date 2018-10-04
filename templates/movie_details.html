@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h2>Movie Info</h2>
+
+  <p> Title: {{movie.title}}</p>
+
+    <p> IMDb: {{movie.IMDb}}</p>
+
+      <p> Release date: {{movie.release_date}}</p>
+
+    <p>Ratings</p>
+      {%for r in movie.ratings_data%}
+        <li>
+
+          Score: {{r.score}}
+        
+
+            
+        </li>
+
+
+      {%endfor%}
+ 
+{% endblock %}

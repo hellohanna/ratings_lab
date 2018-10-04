@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% block content %}
+
+  <h2>User Info</h2>
+
+  <p> Age: {{user.age}}</p>
+
+   <p> Zipcode: {{user.zipcode}}</p>
+
+    <p>Movies and ratings</p>
+      {%for r in user.ratings_data%}
+        <li>
+           {{Movie.query.filter(Movie.movie_id == r.movie_id).one().title}}
+           Score: {{r.score}} 
+            
+
+            
+        </li>
+
+
+      {%endfor%}
+ 
+{% endblock %}

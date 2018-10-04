@@ -54,7 +54,11 @@ def load_movies():
         release_date = row.split("|")[2] 
         IMDb = row.split("|")[4]
         title = title.split('(')[0]
-        release_date = datetime.datetime.strptime(release_date,"%d-%b-%Y")
+        if release_date:
+
+            release_date = datetime.datetime.strptime(release_date,"%d-%b-%Y")
+        else :
+            release_date = None
        
 
         movie = Movie(movie_id=movie_id,
