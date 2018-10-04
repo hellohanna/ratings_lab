@@ -66,7 +66,8 @@ def login_form():
 
     user_email = request.args.get("email")
     pass_word = request.args.get("password")
-    session['user_email'] = user_email
+    user_object = User.query.filter(User.email == user_email).first()
+    session['user_id'] = user_object.user_id
 
     if User.query.filter(User.email == user_email, User.password == pass_word):
         flash('You were successfully logged in')
@@ -103,13 +104,32 @@ def movie_list():
     return render_template("movie_list.html", movies=movie_list)        
 
 
+@app.route("/movies/<movie_id>", methods = ['POST'])
+def submit_score(movie_id):
+    """Submit a score"""
+
+    score = request.form.get('score')
+    user_id = session['user_id']
+    rating = Ratings_data(user_id = user_id, movie_id =movie_id, score = score)
+    db.session.add(rating)
+    db.session.commit()
+
+    return render_template("movie_details.html")
+
+
 @app.route('/movies/<movie_id>')
 def show_movie_info(movie_id):
     """Show user information"""
     movie = Movie.query.filter(Movie.movie_id == movie_id).one()
-    
+    user_id = session.get('user_id')
+    if user_id:
+        user= User.query.filter(User.user_id == user_id).one()
+        scores = Ratings_data.query.filter(Ratings_data.movie_id == movie_id, Ratings_data.user_id == user_id).first()
 
-    return render_template("movie_details.html", movie = movie, Ratings_data = Ratings_data)
+    else:
+        scores = None
+
+    return render_template("movie_details.html", movie = movie, Ratings_data = Ratings_data, scores = scores)
 
 
 if __name__ == "__main__":

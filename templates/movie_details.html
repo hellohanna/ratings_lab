@@ -5,7 +5,7 @@
 
   <p> Title: {{movie.title}}</p>
 
-    <p> IMDb: {{movie.IMDb}}</p>
+    <p> IMDb: <a href="{{movie.IMDb}}">Link</a></p>
 
       <p> Release date: {{movie.release_date}}</p>
 
@@ -17,10 +17,19 @@
         </li>
 
         {%endfor%}
-        {%if 'user_email' in session  %}
-            
+
+        {%if 'user_id' in session  %}
             
 
+        <p>You are in! Score :{{scores}}</p>
+
+
+        <form action = "/movies/{{ movie.movie_id}}" method = "POST">
+            Put your score <input type="text" name="score">
+            
+            <input type="submit" value = "Submit a score" >
+        </form>
+    
 
       {%endif%}
  
